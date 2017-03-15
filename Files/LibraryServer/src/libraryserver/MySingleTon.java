@@ -9,17 +9,6 @@ package libraryserver;
  *
  * @author murilo.erhardt
  */
-public class LibraryServer {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-       
-        Singleton st = Singleton.getInstance();
-        st.getSomeThing();
-        
-        
-    }
+class MySingleTon {
     
 }
