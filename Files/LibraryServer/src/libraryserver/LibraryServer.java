@@ -20,7 +20,8 @@ public class LibraryServer {
      */
     public static void main(String[] args) throws IOException {
 
-        ServerSocket servidor = new ServerSocket();
+        
+        ServerSocket servidor = new ServerSocket(12345);
 
         Socket cliente = servidor.accept();
         System.out.println("Nova conexão com o cliente "
@@ -35,7 +36,9 @@ public class LibraryServer {
         s.close();
         servidor.close();
         cliente.close();
-        Singleton st = Singleton.getInstance();
+        
+
+        //Singleton st = Singleton.getInstance();
         //st.getSomeThing();
 
     }
