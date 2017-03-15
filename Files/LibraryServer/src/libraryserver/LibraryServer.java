@@ -22,6 +22,7 @@ public class LibraryServer {
 
         
         ServerSocket servidor = new ServerSocket(12345);
+        
 
         Socket cliente = servidor.accept();
         System.out.println("Nova conexão com o cliente "
@@ -33,6 +34,7 @@ public class LibraryServer {
             System.out.println(s.nextLine());
         }
 
+        
         s.close();
         servidor.close();
         cliente.close();
