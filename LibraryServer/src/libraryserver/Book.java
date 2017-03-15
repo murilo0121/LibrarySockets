@@ -15,6 +15,12 @@ public class Book {
     private String year;
     private String usrCode;
 
+    public Book(int code, String title, String year) {
+        this.code = code;
+        this.title = title;
+        this.year = year;
+    }
+
     
     public int getCode() {
         return code;

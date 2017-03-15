@@ -14,7 +14,14 @@ public class User {
     private int code;
     private String nome;
     private String senha;
-    private boolean type; // tipo de usuário, user ou admin
+    private boolean type; // tipo de usuário, user=true ou admin=false
+
+    public User(int code, String nome, String senha, boolean type) {
+        this.code = code;
+        this.nome = nome;
+        this.senha = senha;
+        this.type = type;
+    }
 
     public int getCode() {
         return code;
@@ -40,7 +47,7 @@ public class User {
         this.senha = senha;
     }
 
-    public boolean isType() {
+    public boolean getType() {
         return type;
     }
 

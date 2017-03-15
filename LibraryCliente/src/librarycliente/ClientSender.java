@@ -41,7 +41,7 @@ public class ClientSender implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(ClientSender.class.getName()).log(Level.SEVERE, null, ex);
         }
-        while (controllCliente != true) {
+        while (clienteInfo.getType() > 1) {
             System.out.println("-----------------Bem vindo a livraria-----------------\n\n");//17 ---
             System.out.println("Login: ");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -60,7 +60,8 @@ public class ClientSender implements Runnable {
             clienteInfo.setSenha(password);
             saida.println("40->"+login+"->"+password);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(10000000);
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(ClientSender.class.getName()).log(Level.SEVERE, null, ex);
             }

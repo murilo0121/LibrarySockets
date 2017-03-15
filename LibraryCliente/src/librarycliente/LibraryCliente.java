@@ -22,6 +22,7 @@ public class LibraryCliente {
         Socket cliente = new Socket("127.0.0.1", 12345);
         
         ClienteInfo clienteInfo = new ClienteInfo();
+        clienteInfo.setType(500); //usada para controlar login na thread nao apagar
         Thread thread = new Thread(  new ClientReciever(cliente, clienteInfo) );
         thread.start();
         Thread thread2 = new Thread(  new ClientSender(cliente, clienteInfo) );

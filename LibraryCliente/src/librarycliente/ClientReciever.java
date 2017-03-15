@@ -45,7 +45,7 @@ public class ClientReciever implements Runnable{
                  } catch (IOException ex) {
                     Logger.getLogger(ClientReciever.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Message received from the server : " +message);
+                decodeMessage(message);
             }
         } 
     }
