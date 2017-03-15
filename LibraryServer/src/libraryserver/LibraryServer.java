@@ -21,24 +21,13 @@ public class LibraryServer {
     public static void main(String[] args) throws IOException {
 
         
-        ServerSocket servidor = new ServerSocket(12345);
+    ServerSocket servidor = new ServerSocket(12345);
         
-
+    while (true) {
         Socket cliente = servidor.accept();
-        System.out.println("Nova conexão com o cliente "
-                + cliente.getInetAddress().getHostAddress()
-        );
-
-        Scanner s = new Scanner(cliente.getInputStream());
-        while (s.hasNextLine()) {
-            System.out.println(s.nextLine());
-        }
-
-        
-        s.close();
-        servidor.close();
-        cliente.close();
-        
+        Thread thread = new Thread(  new Listener(cliente) );
+        thread.start();
+    }   
 
         //Singleton st = Singleton.getInstance();
         //st.getSomeThing();
