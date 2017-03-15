@@ -5,6 +5,8 @@
  */
 package libraryserver;
 
+import java.util.List;
+
 /**
  *
  * @author murilo.erhardt
@@ -12,6 +14,10 @@ package libraryserver;
 public class Singleton {
     
     private static Singleton myObj;
+    private List<Book> listOfBooks;
+    private List<User> listOfUser;
+    private List<Book> listToDeleteBook;
+    private List<Book> listToLoan;
     
     private Singleton(){
         
@@ -23,11 +29,41 @@ public class Singleton {
         }
         return myObj;
     }
-     
-    public void getSomeThing(){
-        // do something here
-        System.out.println("I am here....");
+    
+    public List<Book> getListOfBooks() {
+        return listOfBooks;
     }
+
+    public void setListOfBooks(List<Book> listOfBooks) {
+        this.listOfBooks = listOfBooks;
+    }
+
+    public List<User> getListOfUser() {
+        return listOfUser;
+    }
+
+    public void setListOfUser(List<User> listOfUser) {
+        this.listOfUser = listOfUser;
+    }
+
+    public List<Book> getListToDeleteBook() {
+        return listToDeleteBook;
+    }
+
+    public void setListToDeleteBook(List<Book> listToDeleteBook) {
+        this.listToDeleteBook = listToDeleteBook;
+    }
+
+    public List<Book> getListToLoan() {
+        return listToLoan;
+    }
+
+    public void setListToLoan(List<Book> listToLoan) {
+        this.listToLoan = listToLoan;
+    }
+    
+    
+  
     
     
 }

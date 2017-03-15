@@ -9,7 +9,7 @@ package libraryserver;
  *
  * @author murilo.erhardt
  */
-public class Library {
+public class Book {
     private int code;
     private String title;
     private String year;
