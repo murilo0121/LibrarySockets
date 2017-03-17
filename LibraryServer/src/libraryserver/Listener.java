@@ -3,8 +3,10 @@ package libraryserver;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
@@ -17,13 +19,17 @@ public class Listener implements Runnable {
 
     public Listener(Socket client) {
         this.client = client;
+
     }
 
-    @Override
-    public void run() {
-        while (true) {
+    private static void metodo() throws IOException {
 
-            Scanner s = null;
+        while (true) {
+            InputStream cliente = client.getInputStream();
+
+            Scanner s;
+            s = new Scanner(cliente);
+
             try {
                 s = new Scanner(client.getInputStream());
             } catch (IOException ex) {
@@ -37,24 +43,48 @@ public class Listener implements Runnable {
                 }
             }
         }
+
+
+    }
+
+    @Override
+    public void run() {
+
+        try {
+            metodo();
+        } catch (IOException ex) {
+            Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     private static void decodeMessage(String message) throws IOException {
 
+        PrintStream ps = new PrintStream(client.getOutputStream());
         OutputStream os = client.getOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(os);
         BufferedWriter bw = new BufferedWriter(osw);
 
         String[] parts = message.split("->");
+        String result;
         //COD 40 = tentativa de login
         int resultCode;
         if (parts[0].equals("40")) {
             resultCode = checkUser(parts[1], parts[2]);
             if (resultCode == 41) {
-                bw.write(41+"->"+"   ");
-                bw.flush();
+                result = "41->"; 
+                ps.println(result);
+            }
+            if (resultCode == 42) {
+                result = "42->"; 
+                ps.println(result);
+            }
+            else{
+                result = "Usuário nao encontrado->"; 
+                ps.println(result);
             }
         }
+
     }
 
     //retorn false=adm e true=usr

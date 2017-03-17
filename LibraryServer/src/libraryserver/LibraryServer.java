@@ -6,6 +6,8 @@
 package libraryserver;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,11 @@ public class LibraryServer {
 
         //Singleton st = Singleton.getInstance();
         //st.getSomeThing();
+    }
+    
+    public void metodo(Socket cliente) throws IOException{
+        PrintStream ps = new PrintStream(cliente.getOutputStream());
+        ps.println("babaca");
     }
 
     private static void createDB() {

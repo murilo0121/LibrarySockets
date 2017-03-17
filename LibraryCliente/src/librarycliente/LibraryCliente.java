@@ -20,7 +20,7 @@ public class LibraryCliente {
      */
     public static void main(String[] args) throws IOException {
         Socket cliente = new Socket("127.0.0.1", 12345);
-        
+        System.out.println("O cliente se conectou ao servidor!");
         ClienteInfo clienteInfo = new ClienteInfo();
         clienteInfo.setType(500); //usada para controlar login na thread nao apagar
         Thread thread = new Thread(  new ClientReciever(cliente, clienteInfo) );
