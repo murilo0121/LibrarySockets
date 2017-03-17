@@ -81,6 +81,7 @@ public class ClientReciever implements Runnable {
             for(int i=2; i<parts.length; i++){
                 System.out.println(parts[i]);
             }
+            
         }
     }
 

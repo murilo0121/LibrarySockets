@@ -69,11 +69,11 @@ public class ClientSender implements Runnable {
 
     }
 
-    private static void showMenuForUser() throws IOException {
+    public static void showMenuForUser() throws IOException, InterruptedException {
         String option;
         int optionInt = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
+        System.out.println("-------------------------");
         System.out.println("1. Lista Livros");
         System.out.println("2. Emprestar Livro");
         System.out.println("3. Devolver Livros");
@@ -88,14 +88,17 @@ public class ClientSender implements Runnable {
             listBooks();
         }
 
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("-------------------------");
+        Thread.sleep(1000);
+        showMenuForUser();
+
     }
 
-    private static void showMenuForAdmin() throws IOException {
+    public static void showMenuForAdmin() throws IOException, InterruptedException {
         String option;
         int optionInt = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
+        System.out.println("-------------------------");
         System.out.println("1. Lista Livros");
         System.out.println("2. Cadastrar Livro");
         System.out.println("3. Remover Livro");
@@ -113,6 +116,8 @@ public class ClientSender implements Runnable {
         
         
         System.out.println("-------------------------");
+        Thread.sleep(1000);
+        showMenuForAdmin();
     }
 
     //20 é o código para lista livros
