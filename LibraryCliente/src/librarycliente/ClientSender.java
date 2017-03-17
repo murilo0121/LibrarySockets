@@ -29,9 +29,8 @@ public class ClientSender implements Runnable {
         this.clienteInfo = clienteInfo;
     }
 
-    public static void sender(ClienteInfo clienteInfo) throws IOException, InterruptedException{
-        
-        
+    public static void sender(ClienteInfo clienteInfo) throws IOException, InterruptedException {
+
         String login = null;
         String password = null;
 
@@ -47,20 +46,19 @@ public class ClientSender implements Runnable {
             System.out.println("Senha: ");
             password = reader.readLine();
             clienteInfo.setSenha(password);
-            saida.println("40->"+login+"->"+password);
+            saida.println("40->" + login + "->" + password);
             Thread.sleep(1000);
-        
+
         }
-        if(clienteInfo.getType() == 0){
+        if (clienteInfo.getType() == 0) {
             showMenuForAdmin();
         }
-        if(clienteInfo.getType() == 1){
+        if (clienteInfo.getType() == 1) {
             showMenuForUser();
         }
-        
-        
+
     }
-    
+
     @Override
     public void run() {
         try {
@@ -71,16 +69,62 @@ public class ClientSender implements Runnable {
 
     }
 
-    private static void showMenuForUser() {
+    private static void showMenuForUser() throws IOException {
+        String option;
+        int optionInt = 0;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+        System.out.println("1. Lista Livros");
+        System.out.println("2. Emprestar Livro");
+        System.out.println("3. Devolver Livros");
+        System.out.println("4. Reservar Livro");
+        option = reader.readLine();
+        try {
+            optionInt = Integer.parseInt(option);
+        } catch (Exception ex) {
+            System.out.println("Opcao inválida");
+        }
+        if (optionInt == 1) {
+            listBooks();
+        }
+
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
     }
 
-    private static void showMenuForAdmin() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+    private static void showMenuForAdmin() throws IOException {
+        String option;
+        int optionInt = 0;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.println("1. Lista Livros");
+        System.out.println("2. Cadastrar Livro");
+        System.out.println("3. Remover Livro");
+        
+
+        option = reader.readLine();
+        try {
+            optionInt = Integer.parseInt(option);
+        } catch (Exception ex) {
+            System.out.println("Opcao inválida");
+        }
+        if (optionInt == 1) {
+            listBooks();
+        }
+        
+        
+        System.out.println("-------------------------");
+    }
+
+    //20 é o código para lista livros
+    private static void listBooks() throws IOException {
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        saida.println("20->");
     }
 
     private static void cleanScreen() {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n");
+
+        System.out.println("-------------------------");
     }
 
 }

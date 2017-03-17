@@ -84,7 +84,18 @@ public class Listener implements Runnable {
                 ps.println(result);
             }
         }
+        //COD 20 = listar livros
+        if (parts[0].equals("20")) {
+            Singleton st = Singleton.getInstance();
+            List<Book> books = st.getListOfBooks();
 
+            result = "20->";
+            result = result + "|Codigo|\t|Nome /Ano|->";
+            for(Book book : books){
+                result= result +"   "+ book.getCode()+ " \t\t"+book.getTitle()+ "("+ book.getYear() + ")->";
+            }
+            ps.println(result);
+        }
     }
 
     //retorn false=adm e true=usr

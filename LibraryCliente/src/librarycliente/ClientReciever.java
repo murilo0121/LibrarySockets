@@ -75,6 +75,13 @@ public class ClientReciever implements Runnable {
             clienteInfo.setType(0);
 
         }
+        //COD 20- listar livros
+        if(parts[0].equals("20")){
+            System.out.println(parts[1]);
+            for(int i=2; i<parts.length; i++){
+                System.out.println(parts[i]);
+            }
+        }
     }
 
 }
