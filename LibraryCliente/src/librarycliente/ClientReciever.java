@@ -83,6 +83,11 @@ public class ClientReciever implements Runnable {
             }
             
         }
+        
+        //COD 50-CADASTRA LIVRO
+        if(parts[0].equals("50")){
+            System.out.println(parts[1]);
+        }
     }
 
 }

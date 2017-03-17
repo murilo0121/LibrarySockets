@@ -96,6 +96,17 @@ public class Listener implements Runnable {
             }
             ps.println(result);
         }
+        
+        //COD 50 = cadastrar livro
+        if (parts[0].equals("50")) {
+            Singleton st = Singleton.getInstance();
+            Book book = new Book(st.getListOfBooks().size(), parts[1], parts[2]);
+
+            st.addBook(book);
+
+            
+            ps.println("50->Livro "+book.getTitle()+" adicionado com sucesso. Cod: "+book.getCode());
+        }
     }
 
     //retorn false=adm e true=usr

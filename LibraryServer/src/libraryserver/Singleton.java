@@ -30,6 +30,10 @@ public class Singleton {
         return myObj;
     }
     
+    public void addBook(Book book){
+        listOfBooks.add(book);
+    }
+    
     public List<Book> getListOfBooks() {
         return listOfBooks;
     }

@@ -113,6 +113,10 @@ public class ClientSender implements Runnable {
         if (optionInt == 1) {
             listBooks();
         }
+        if (optionInt == 2) {
+            registerBook();
+        }
+        
         
         
         System.out.println("-------------------------");
@@ -125,6 +129,21 @@ public class ClientSender implements Runnable {
         PrintStream saida = null;
         saida = new PrintStream(socket.getOutputStream());
         saida.println("20->");
+    }
+    
+    private static void registerBook() throws IOException, InterruptedException {
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        String bookTitle;
+        String bookYear;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Titulo do Livro:");
+        bookTitle = reader.readLine();
+        System.out.println("Ano do Livro:");
+        bookYear = reader.readLine();
+        saida.println("50->"+bookTitle+"->"+bookYear);
+        Thread.sleep(1000);
+        
     }
 
     private static void cleanScreen() {
