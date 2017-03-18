@@ -37,7 +37,7 @@ public class ClientSender implements Runnable {
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = null;
         saida = new PrintStream(socket.getOutputStream());
-        while (clienteInfo.getType() > 1) {
+        while (clienteInfo.getType() > 2 ) {
             System.out.println("-----------------Bem vindo a livraria-----------------\n\n");//17 ---
             System.out.println("Login: ");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

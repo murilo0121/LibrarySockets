@@ -77,7 +77,7 @@ public class Listener implements Runnable {
             }
             if (resultCode == 42) {
                 result = "42->"; 
-                ps.println(result);
+                    ps.println(result);
             }
             else{
                 result = "Usuário nao encontrado->"; 

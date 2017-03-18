@@ -72,7 +72,7 @@ public class ClientReciever implements Runnable {
         if (parts[0].equals("42")) {
             System.out.println("-----------------Bem vindo a livraria " + clienteInfo.getNome() + "-----------------");
             System.out.println("-----------------Logado como cliente -----------------\n");
-            clienteInfo.setType(0);
+            clienteInfo.setType(1);
 
         }
         //COD 20- listar livros
