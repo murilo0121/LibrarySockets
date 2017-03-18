@@ -29,7 +29,10 @@ public class LibraryServer {
         ServerSocket servidor = new ServerSocket(12345);
 
         while (true) {
+            System.out.println("conectou");
             Socket cliente = servidor.accept();
+            System.out.println("Novo cliente - >localaddr:" + cliente.getLocalAddress() + " inet" + cliente.getInetAddress());
+
             Thread thread = new Thread(new Listener(cliente));
             thread.start();
         }
@@ -37,14 +40,9 @@ public class LibraryServer {
         //Singleton st = Singleton.getInstance();
         //st.getSomeThing();
     }
-    
-    public void metodo(Socket cliente) throws IOException{
-        PrintStream ps = new PrintStream(cliente.getOutputStream());
-        ps.println("babaca");
-    }
 
     private static void createDB() {
-        
+
         User user = new User(0, "murilo", "123", false);
         User user1 = new User(1, "lara", "123", true);
         User user2 = new User(2, "claudio", "123", true);

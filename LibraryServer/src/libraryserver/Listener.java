@@ -18,26 +18,31 @@ public class Listener implements Runnable {
     private static Socket client;
 
     public Listener(Socket client) {
+       
+
         this.client = client;
 
     }
 
     private static void metodo() throws IOException {
+        Socket nClient = client;
 
         while (true) {
-            InputStream cliente = client.getInputStream();
-
+            System.out.println("endereco do cliente:" + nClient.getInetAddress());
+            InputStream cliente = nClient.getInputStream();
+            System.out.println("localaddr:" +nClient.getLocalAddress() + " inet" + nClient.getInetAddress());
             Scanner s;
             s = new Scanner(cliente);
 
             try {
-                s = new Scanner(client.getInputStream());
+                s = new Scanner(nClient.getInputStream());
             } catch (IOException ex) {
                 Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
             }
             while (s.hasNextLine()) {
                 try {
-                    decodeMessage(s.nextLine());
+                    decodeMessage(s.nextLine(),nClient);
+                    break;
                 } catch (IOException ex) {
                     Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -52,16 +57,17 @@ public class Listener implements Runnable {
 
         try {
             metodo();
+            
         } catch (IOException ex) {
             Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private static void decodeMessage(String message) throws IOException {
+    private static void decodeMessage(String message, Socket nCliente) throws IOException {
 
-        PrintStream ps = new PrintStream(client.getOutputStream());
-        OutputStream os = client.getOutputStream();
+        PrintStream ps = new PrintStream(nCliente.getOutputStream());
+        OutputStream os = nCliente.getOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(os);
         BufferedWriter bw = new BufferedWriter(osw);
 
@@ -107,6 +113,7 @@ public class Listener implements Runnable {
             
             ps.println("50->Livro "+book.getTitle()+" adicionado com sucesso. Cod: "+book.getCode());
         }
+       
     }
 
     //retorn false=adm e true=usr

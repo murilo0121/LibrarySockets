@@ -20,17 +20,17 @@ import java.util.logging.Logger;
  */
 public class ClientSender implements Runnable {
 
-    private static Socket socket;
+    private static Socket sockets;
     public ClienteInfo clienteInfo;
     private boolean controllCliente = false;
 
     public ClientSender(Socket socket, ClienteInfo clienteInfo) {
-        this.socket = socket;
+        this.sockets = socket;
         this.clienteInfo = clienteInfo;
     }
 
     public static void sender(ClienteInfo clienteInfo) throws IOException, InterruptedException {
-
+        Socket socket = sockets;
         String login = null;
         String password = null;
 
@@ -51,10 +51,10 @@ public class ClientSender implements Runnable {
 
         }
         if (clienteInfo.getType() == 0) {
-            showMenuForAdmin();
+            showMenuForAdmin( socket);
         }
         if (clienteInfo.getType() == 1) {
-            showMenuForUser();
+            showMenuForUser( socket);
         }
 
     }
@@ -69,7 +69,7 @@ public class ClientSender implements Runnable {
 
     }
 
-    public static void showMenuForUser() throws IOException, InterruptedException {
+    public static void showMenuForUser(Socket socket) throws IOException, InterruptedException {
         String option;
         int optionInt = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -85,16 +85,16 @@ public class ClientSender implements Runnable {
             System.out.println("Opcao inválida");
         }
         if (optionInt == 1) {
-            listBooks();
+            listBooks(socket);
         }
 
         System.out.println("-------------------------");
         Thread.sleep(1000);
-        showMenuForUser();
+        showMenuForUser(socket);
 
     }
 
-    public static void showMenuForAdmin() throws IOException, InterruptedException {
+    public static void showMenuForAdmin(Socket socket) throws IOException, InterruptedException {
         String option;
         int optionInt = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -111,27 +111,27 @@ public class ClientSender implements Runnable {
             System.out.println("Opcao inválida");
         }
         if (optionInt == 1) {
-            listBooks();
+            listBooks(socket);
         }
         if (optionInt == 2) {
-            registerBook();
+            registerBook(socket);
         }
-        
+        System.out.println("Addr cliente:" + socket.getLocalAddress() );
         
         
         System.out.println("-------------------------");
         Thread.sleep(1000);
-        showMenuForAdmin();
+        showMenuForAdmin(socket);
     }
 
     //20 é o código para lista livros
-    private static void listBooks() throws IOException {
+    private static void listBooks(Socket socket) throws IOException {
         PrintStream saida = null;
         saida = new PrintStream(socket.getOutputStream());
         saida.println("20->");
     }
     
-    private static void registerBook() throws IOException, InterruptedException {
+    private static void registerBook(Socket socket) throws IOException, InterruptedException {
         PrintStream saida = null;
         saida = new PrintStream(socket.getOutputStream());
         String bookTitle;
