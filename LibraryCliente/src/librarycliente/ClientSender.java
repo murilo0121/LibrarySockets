@@ -93,7 +93,7 @@ public class ClientSender implements Runnable {
             lendBook(socket, cliInfo);
         }
         if (optionInt == 3) {
-            
+            returnBook(socket, cliInfo);
         }
         if (optionInt == 4) {
             
@@ -164,6 +164,7 @@ public class ClientSender implements Runnable {
         saida.println("20->");
     }
     
+    //50 - cadastrar livro
     private static void registerBook(Socket socket) throws IOException, InterruptedException {
         PrintStream saida = null;
         saida = new PrintStream(socket.getOutputStream());
@@ -176,6 +177,17 @@ public class ClientSender implements Runnable {
         bookYear = reader.readLine();
         saida.println("50->"+bookTitle+"->"+bookYear);
         
+    }
+    
+    //COD 30 - devolver livro
+    private static void returnBook(Socket socket, ClienteInfo cliInfo) throws IOException{
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        String codBook;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Codigo do livro:");
+        codBook = reader.readLine();
+        saida.println("30->"+codBook+"->"+cliInfo.getNome());
     }
 
     private static void cleanScreen() {

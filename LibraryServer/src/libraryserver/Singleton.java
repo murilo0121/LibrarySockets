@@ -17,7 +17,7 @@ public class Singleton {
     private List<Book> listOfBooks;
     private List<User> listOfUser;
     private List<Book> listToDeleteBook;
-    private List<Book> listToLoan;
+    private List<Loan> listLoan;
     
     private Singleton(){
         
@@ -58,16 +58,12 @@ public class Singleton {
         this.listToDeleteBook = listToDeleteBook;
     }
 
-    public List<Book> getListToLoan() {
-        return listToLoan;
+    public List<Loan> getListToLoan() {
+        return listLoan;
     }
 
-    public void setListToLoan(List<Book> listToLoan) {
-        this.listToLoan = listToLoan;
+    public void setListToLoan(List<Loan> listToLoan) {
+        this.listLoan = listToLoan;
     }
-    
-    
-  
-    
-    
+
 }

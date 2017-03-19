@@ -104,6 +104,7 @@ public class Listener implements Runnable {
         if (parts[0].equals("10")) {
             Singleton st = Singleton.getInstance();
             List<Book> books = st.getListOfBooks();
+            boolean loanOk = false; //true emprestou, false nao emprestou
             for (Book book : books) {
                 if (book.getCode().equals(parts[1])) {
                     String bookUsrCode = book.getUsrCode();
@@ -112,10 +113,15 @@ public class Listener implements Runnable {
                         st.getListOfBooks().remove(Integer.parseInt(book.getCode()));
                         st.getListOfBooks().add(Integer.parseInt(book.getCode()), book);
                         ps.println("11->" + book.getTitle() + " emprestado com sucesso");
+                        loanOk = true;
                         break;
                     }
                 }
             }
+            if(loanOk == false){
+                ps.println("12->Falhou ao emprestar o livro, verifique se ele está disponível para emprestimo. É possível reservar um livro no menu de reserva!");
+            }
+
 
         }
 
@@ -155,6 +161,28 @@ public class Listener implements Runnable {
             }
 
             ps.println(result);
+        }
+
+        //COD 30 Devolver livro
+        if (parts[0].equals("30")) {
+            Singleton st = Singleton.getInstance();
+            List<Book> books = st.getListOfBooks();
+            for (Book book : books) {
+                if (book.getCode().equals(parts[1])) {
+                    String bookUsrCode = book.getUsrCode();
+                    if (bookUsrCode != null) {
+                        if (book.getUsrCode().equals(getUserCodeByName(parts[2]))) {
+                            book.setUsrCode(null);
+                            st.getListOfBooks().remove(Integer.parseInt(book.getCode()));
+                            st.getListOfBooks().add(Integer.parseInt(book.getCode()), book);
+                            ps.println("31->" + book.getTitle() + " devolvido com sucesso");
+                            break;
+                        }
+
+                    }
+                }
+            }
+            ps.println("32-> Ocorreu um problema, tente novamente");
         }
 
         //COD 50 = cadastrar livro

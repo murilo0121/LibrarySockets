@@ -103,6 +103,16 @@ public class ClientReciever implements Runnable {
             System.out.println(parts[1]);
         }
         
+        //COD 12 emprestou livro com sucess
+        if(parts[0].equals("12")){
+            System.out.println(parts[1]);
+        }
+        
+        //COD 31 entregou com sucesso
+        if(parts[0].equals("31")){
+            System.out.println(parts[1]);
+        }
+        
 
     }
 
