@@ -84,10 +84,26 @@ public class ClientReciever implements Runnable {
             
         }
         
+        //COD 25- listar livros
+        if(parts[0].equals("25")){
+            System.out.println(parts[1]);
+            for(int i=2; i<parts.length; i++){
+                System.out.println(parts[i]);
+            }
+            
+        }
+        
         //COD 50-CADASTRA LIVRO
         if(parts[0].equals("50")){
             System.out.println(parts[1]);
         }
+        
+        //COD 11 emprestou livro com sucess
+        if(parts[0].equals("11")){
+            System.out.println(parts[1]);
+        }
+        
+
     }
 
 }

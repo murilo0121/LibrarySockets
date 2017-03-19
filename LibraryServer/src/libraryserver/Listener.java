@@ -18,7 +18,6 @@ public class Listener implements Runnable {
     private static Socket client;
 
     public Listener(Socket client) {
-       
 
         this.client = client;
 
@@ -30,7 +29,7 @@ public class Listener implements Runnable {
         while (true) {
             System.out.println("endereco do cliente:" + nClient.getInetAddress());
             InputStream cliente = nClient.getInputStream();
-            System.out.println("localaddr:" +nClient.getLocalAddress() + " inet" + nClient.getInetAddress());
+            System.out.println("localaddr:" + nClient.getLocalAddress() + " inet" + nClient.getInetAddress());
             Scanner s;
             s = new Scanner(cliente);
 
@@ -41,14 +40,13 @@ public class Listener implements Runnable {
             }
             while (s.hasNextLine()) {
                 try {
-                    decodeMessage(s.nextLine(),nClient);
+                    decodeMessage(s.nextLine(), nClient);
                     break;
                 } catch (IOException ex) {
                     Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-
 
     }
 
@@ -57,11 +55,23 @@ public class Listener implements Runnable {
 
         try {
             metodo();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Listener.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private static String getUserCodeByName(String name) {
+        String cod = null;
+        Singleton st = Singleton.getInstance();
+        List<User> users = st.getListOfUser();
+        for (User user : users) {
+            if (user.getNome().equals(name)) {
+                cod = user.getCode();
+            }
+        }
+        return cod;
     }
 
     private static void decodeMessage(String message, Socket nCliente) throws IOException {
@@ -78,42 +88,89 @@ public class Listener implements Runnable {
         if (parts[0].equals("40")) {
             resultCode = checkUser(parts[1], parts[2]);
             if (resultCode == 41) {
-                result = "41->"; 
+                result = "41->";
                 ps.println(result);
             }
             if (resultCode == 42) {
-                result = "42->"; 
-                    ps.println(result);
-            }
-            else{
-                result = "Usuário nao encontrado->"; 
+                result = "42->";
+                ps.println(result);
+            } else {
+                result = "Usuário nao encontrado->";
                 ps.println(result);
             }
         }
+
+        //COD 10 empresta livro
+        if (parts[0].equals("10")) {
+            Singleton st = Singleton.getInstance();
+            List<Book> books = st.getListOfBooks();
+            for (Book book : books) {
+                if (book.getCode().equals(parts[1])) {
+                    String bookUsrCode = book.getUsrCode();
+                    if (bookUsrCode == null || bookUsrCode.isEmpty()) {
+                        book.setUsrCode(getUserCodeByName(parts[2]));
+                        st.getListOfBooks().remove(Integer.parseInt(book.getCode()));
+                        st.getListOfBooks().add(Integer.parseInt(book.getCode()), book);
+                        ps.println("11->" + book.getTitle() + " emprestado com sucesso");
+                        break;
+                    }
+                }
+            }
+
+        }
+
         //COD 20 = listar livros
         if (parts[0].equals("20")) {
             Singleton st = Singleton.getInstance();
             List<Book> books = st.getListOfBooks();
 
             result = "20->";
-            result = result + "|Codigo|\t|Nome /Ano|->";
-            for(Book book : books){
-                result= result +"   "+ book.getCode()+ " \t\t"+book.getTitle()+ "("+ book.getYear() + ")->";
+            result = result + "|Codigo|\t|Status|\t\t|Nome /Ano|->";
+            String status;
+            for (Book book : books) {
+                if (book.getUsrCode() == null) {
+                    status = "Disp.";
+                } else {
+                    status = "Indi.";
+                }
+                result = result + "   " + book.getCode() + " \t\t" + status + "\t\t\t" + book.getTitle() + "(" + book.getYear() + ")->";
             }
             ps.println(result);
         }
-        
+
+        //COD 25 Lista livros emprestados pelo cliente
+        if (parts[0].equals("25")) {
+            String userCod = getUserCodeByName(parts[1]);
+            Singleton st = Singleton.getInstance();
+            List<Book> books = st.getListOfBooks();
+            result = "20->|Codigo|\t\t|Titulo|->";
+            for (Book book : books) {
+                String bookTemp = book.getUsrCode();
+                if (bookTemp != null) {
+                    if (bookTemp.equals(userCod)) {
+                        result = result + "   " + book.getCode() + "\t\t\t" + book.getTitle() + "->";
+
+                    }
+                }
+            }
+
+            ps.println(result);
+        }
+
         //COD 50 = cadastrar livro
         if (parts[0].equals("50")) {
             Singleton st = Singleton.getInstance();
-            Book book = new Book(st.getListOfBooks().size(), parts[1], parts[2]);
+            StringBuilder sb = new StringBuilder();
+            sb.append("");
+            sb.append(st.getListOfBooks().size());
+            String strI = sb.toString();
+            Book book = new Book(strI, parts[1], parts[2]);
 
             st.addBook(book);
 
-            
-            ps.println("50->Livro "+book.getTitle()+" adicionado com sucesso. Cod: "+book.getCode());
+            ps.println("50->Livro " + book.getTitle() + " adicionado com sucesso. Cod: " + book.getCode());
         }
-       
+
     }
 
     //retorn false=adm e true=usr

@@ -11,23 +11,23 @@ package libraryserver;
  */
 public class User {
     
-    private int code;
+    private String code;
     private String nome;
     private String senha;
     private boolean type; // tipo de usuário, user=true ou admin=false
 
-    public User(int code, String nome, String senha, boolean type) {
+    public User(String code, String nome, String senha, boolean type) {
         this.code = code;
         this.nome = nome;
         this.senha = senha;
         this.type = type;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

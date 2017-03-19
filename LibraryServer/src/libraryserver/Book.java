@@ -10,23 +10,23 @@ package libraryserver;
  * @author murilo.erhardt
  */
 public class Book {
-    private int code;
+    private String code;
     private String title;
     private String year;
     private String usrCode;
 
-    public Book(int code, String title, String year) {
+    public Book(String code, String title, String year) {
         this.code = code;
         this.title = title;
         this.year = year;
     }
 
     
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

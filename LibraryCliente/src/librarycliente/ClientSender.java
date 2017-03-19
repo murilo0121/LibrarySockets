@@ -33,6 +33,7 @@ public class ClientSender implements Runnable {
         Socket socket = sockets;
         String login = null;
         String password = null;
+        ClienteInfo cliInfo = clienteInfo;
 
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = null;
@@ -51,10 +52,10 @@ public class ClientSender implements Runnable {
 
         }
         if (clienteInfo.getType() == 0) {
-            showMenuForAdmin( socket);
+            showMenuForAdmin( socket, cliInfo);
         }
         if (clienteInfo.getType() == 1) {
-            showMenuForUser( socket);
+            showMenuForUser( socket, cliInfo);
         }
 
     }
@@ -69,7 +70,7 @@ public class ClientSender implements Runnable {
 
     }
 
-    public static void showMenuForUser(Socket socket) throws IOException, InterruptedException {
+    public static void showMenuForUser(Socket socket, ClienteInfo cliInfo) throws IOException, InterruptedException {
         String option;
         int optionInt = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -78,6 +79,7 @@ public class ClientSender implements Runnable {
         System.out.println("2. Emprestar Livro");
         System.out.println("3. Devolver Livros");
         System.out.println("4. Reservar Livro");
+        System.out.println("5. Meus Livros");
         option = reader.readLine();
         try {
             optionInt = Integer.parseInt(option);
@@ -87,14 +89,26 @@ public class ClientSender implements Runnable {
         if (optionInt == 1) {
             listBooks(socket);
         }
+        if (optionInt == 2) {
+            lendBook(socket, cliInfo);
+        }
+        if (optionInt == 3) {
+            
+        }
+        if (optionInt == 4) {
+            
+        }
+        if (optionInt == 5) {
+            myBooks(socket,cliInfo);
+        }
 
         System.out.println("-------------------------");
         Thread.sleep(1000);
-        showMenuForUser(socket);
+        showMenuForUser(socket, cliInfo);
 
     }
 
-    public static void showMenuForAdmin(Socket socket) throws IOException, InterruptedException {
+    public static void showMenuForAdmin(Socket socket, ClienteInfo cliInfo) throws IOException, InterruptedException {
         String option;
         int optionInt = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -116,12 +130,31 @@ public class ClientSender implements Runnable {
         if (optionInt == 2) {
             registerBook(socket);
         }
-        System.out.println("Addr cliente:" + socket.getLocalAddress() );
+        //System.out.println("Addr cliente:" + socket.getLocalAddress() );
         
         
         System.out.println("-------------------------");
         Thread.sleep(1000);
-        showMenuForAdmin(socket);
+        showMenuForAdmin(socket, cliInfo);
+    }
+    
+    //COD 25
+    private static void myBooks(Socket socket, ClienteInfo cliInfo) throws IOException{
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        saida.println("25->"+cliInfo.getNome());
+    }
+    
+    
+    //COD 10, emprestar livro
+    private static void lendBook(Socket socket, ClienteInfo cliInfo) throws IOException, InterruptedException{
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        String codBook;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Codigo do livro:");
+        codBook = reader.readLine();
+        saida.println("10->"+codBook+"->"+cliInfo.getNome());
     }
 
     //20 é o código para lista livros
@@ -142,7 +175,6 @@ public class ClientSender implements Runnable {
         System.out.println("Ano do Livro:");
         bookYear = reader.readLine();
         saida.println("50->"+bookTitle+"->"+bookYear);
-        Thread.sleep(1000);
         
     }
 
