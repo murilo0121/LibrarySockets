@@ -118,10 +118,9 @@ public class Listener implements Runnable {
                     }
                 }
             }
-            if(loanOk == false){
+            if (loanOk == false) {
                 ps.println("12->Falhou ao emprestar o livro, verifique se ele está disponível para emprestimo. É possível reservar um livro no menu de reserva!");
             }
-
 
         }
 
@@ -199,6 +198,57 @@ public class Listener implements Runnable {
             ps.println("50->Livro " + book.getTitle() + " adicionado com sucesso. Cod: " + book.getCode());
         }
 
+        if (parts[0].equals("70")) {
+            if (bookIsFree(parts[1]) == true) {
+                ps.println("71->Esse livro está livre para emprestimo, não é necessário colocalo na fila");
+            }
+            if (bookIsFree(parts[1]) == false) {
+                Singleton st = Singleton.getInstance();
+                Loan reserv = new Loan(nCliente, parts[1], getUserCodeByName(parts[2]));
+                st.addReserv(reserv);
+                
+                ps.println("72->Pedido de emprestimo do livro:"+ getNameFromId(parts[1])+ ". Realizado com sucesso. Voce eh o numero "+ numberInRow(parts[1]) +" na fila");
+            }
+        }
+
+    }
+    
+    private static String getNameFromId(String bookId){
+        Singleton st = Singleton.getInstance();
+        List<Book> listBooks = st.getListOfBooks();
+        for(Book book: listBooks){
+            if(book.getCode().equals(bookId)){
+                return book.getTitle();
+            }
+        }
+        return "FALHA FALHA FALHA -0-0-0-0-0-0-0-0-0-0- ";
+    }
+
+    private static int numberInRow(String codBook){
+        Singleton st = Singleton.getInstance();
+        List<Loan> listReserv= st.getListReserv();
+        int rowCoutn = 0;
+        for(Loan reserv: listReserv){
+            if(reserv.getCodBook().equals(codBook)){
+                rowCoutn ++;
+            }
+        }
+        return rowCoutn;
+    }
+    
+    
+    //retorna true se o livro está livra, e false se alguem emprestou
+    private static boolean bookIsFree(String codBook) {
+        Singleton st = Singleton.getInstance();
+        List<Book> books = st.getListOfBooks();
+        for (Book book : books) {
+            if (book.getCode().equals(codBook)) {
+                if (book.getUsrCode() == null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //retorn false=adm e true=usr

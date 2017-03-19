@@ -76,6 +76,9 @@ public class LibraryServer {
         listOfBooks.add(book7);
 
         st.setListOfBooks(listOfBooks);
+        
+        List<Loan> listReserv = new ArrayList<>();
+        st.setListReserv(listReserv);
 
     }
 

@@ -96,7 +96,7 @@ public class ClientSender implements Runnable {
             returnBook(socket, cliInfo);
         }
         if (optionInt == 4) {
-            
+            reservBook(socket, cliInfo);
         }
         if (optionInt == 5) {
             myBooks(socket,cliInfo);
@@ -143,6 +143,17 @@ public class ClientSender implements Runnable {
         PrintStream saida = null;
         saida = new PrintStream(socket.getOutputStream());
         saida.println("25->"+cliInfo.getNome());
+    }
+    
+    //COD 70 reservar
+    private static void reservBook(Socket socket, ClienteInfo cliInfo) throws IOException{
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        String codBook;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Codigo do livro para reservar:");
+        codBook = reader.readLine();
+        saida.println("70->"+codBook+"->"+cliInfo.getNome());
     }
     
     

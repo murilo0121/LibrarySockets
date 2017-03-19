@@ -14,11 +14,25 @@ import java.net.Socket;
 public class Loan {
     private Socket socket;
     private String codBook; 
+    private String codUser;
 
-    public Loan(Socket socket, String codBook) {
+    public Loan(Socket socket, String codBook, String codUser) {
         this.socket = socket;
         this.codBook = codBook;
+        this.codUser = codUser;
     }
+
+    public String getCodUser() {
+        return codUser;
+    }
+
+    public void setCodUser(String codUser) {
+        this.codUser = codUser;
+    }
+    
+    
+
+
 
     public Socket getSocket() {
         return socket;

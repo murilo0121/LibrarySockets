@@ -113,6 +113,15 @@ public class ClientReciever implements Runnable {
             System.out.println(parts[1]);
         }
         
+        //COD 71 falha ao reservar
+        if(parts[0].equals("71")){
+            System.out.println(parts[1]);
+        }
+        //COD 72 reserva com sucesso
+        if(parts[0].equals("72")){
+            System.out.println(parts[1]);
+        }
+        
 
     }
 
