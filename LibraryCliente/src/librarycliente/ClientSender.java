@@ -130,6 +130,9 @@ public class ClientSender implements Runnable {
         if (optionInt == 2) {
             registerBook(socket);
         }
+        if (optionInt == 3) {
+            deleteBook(socket);
+        }
         //System.out.println("Addr cliente:" + socket.getLocalAddress() );
         
         
@@ -137,6 +140,17 @@ public class ClientSender implements Runnable {
         Thread.sleep(1000);
         showMenuForAdmin(socket, cliInfo);
     }
+    
+    private static void deleteBook(Socket socket) throws IOException{
+        PrintStream saida = null;
+        saida = new PrintStream(socket.getOutputStream());
+        String codBook;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Codigo do livro para deletar:");
+        codBook = reader.readLine();
+        saida.println("60->"+codBook);
+    }
+    
     
     //COD 25
     private static void myBooks(Socket socket, ClienteInfo cliInfo) throws IOException{

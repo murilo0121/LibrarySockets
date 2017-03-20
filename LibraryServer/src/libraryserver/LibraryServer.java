@@ -82,6 +82,9 @@ public class LibraryServer {
         
         List<Loan> listReserv = new ArrayList<>();
         st.setListReserv(listReserv);
+        
+        List<String> listToDeleteBook = new ArrayList<>();
+        st.setListToDeleteBook(listToDeleteBook);
 
     }
 

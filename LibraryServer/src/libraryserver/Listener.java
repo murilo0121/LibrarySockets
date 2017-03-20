@@ -104,22 +104,28 @@ public class Listener implements Runnable {
         if (parts[0].equals("10")) {
             Singleton st = Singleton.getInstance();
             List<Book> books = st.getListOfBooks();
-            boolean loanOk = false; //true emprestou, false nao emprestou
-            for (Book book : books) {
-                if (book.getCode().equals(parts[1])) {
-                    String bookUsrCode = book.getUsrCode();
-                    if (bookUsrCode == null || bookUsrCode.isEmpty()) {
-                        book.setUsrCode(getUserCodeByName(parts[2]));
-                        st.getListOfBooks().remove(Integer.parseInt(book.getCode()));
-                        st.getListOfBooks().add(Integer.parseInt(book.getCode()), book);
-                        ps.println("11->" + book.getTitle() + " emprestado com sucesso");
-                        loanOk = true;
-                        break;
+
+            if (bookWillBeDelete(parts[1]) == false) {
+                boolean loanOk = false; //true emprestou, false nao emprestou
+                for (Book book : books) {
+                    if (book.getCode().equals(parts[1])) {
+                        String bookUsrCode = book.getUsrCode();
+                        if (bookUsrCode == null || bookUsrCode.isEmpty()) {
+                            book.setUsrCode(getUserCodeByName(parts[2]));
+                            st.getListOfBooks().remove(Integer.parseInt(book.getCode()));
+                            st.getListOfBooks().add(Integer.parseInt(book.getCode()), book);
+                            ps.println("11->" + book.getTitle() + " emprestado com sucesso");
+                            loanOk = true;
+                            break;
+                        }
                     }
                 }
+                if (loanOk == false) {
+                    ps.println("12->Falhou ao emprestar o livro, verifique se ele está disponível para emprestimo. É possível reservar um livro no menu de reserva!");
+                }
             }
-            if (loanOk == false) {
-                ps.println("12->Falhou ao emprestar o livro, verifique se ele está disponível para emprestimo. É possível reservar um livro no menu de reserva!");
+            else{
+                ps.println("12-> O livro que voce esta tentando reservar será deletado do sistema!");
             }
 
         }
@@ -197,6 +203,14 @@ public class Listener implements Runnable {
 
             ps.println("50->Livro " + book.getTitle() + " adicionado com sucesso. Cod: " + book.getCode());
         }
+        
+        //COD 60 = deletar livro
+        if (parts[0].equals("60")) {
+            Singleton st = Singleton.getInstance();
+            st.deleteBook(parts[1]);
+            ps.print("61->Solicitação de exclusão de livro realizada com sucesso; É necessário aguarda todos os usuarios devolverem o livro e a fila de reserva se esgotar");
+        }
+        
 
         if (parts[0].equals("70")) {
             if (bookIsFree(parts[1]) == true) {
@@ -206,37 +220,36 @@ public class Listener implements Runnable {
                 Singleton st = Singleton.getInstance();
                 Loan reserv = new Loan(nCliente, parts[1], getUserCodeByName(parts[2]));
                 st.addReserv(reserv);
-                
-                ps.println("72->Pedido de emprestimo do livro:"+ getNameFromId(parts[1])+ ". Realizado com sucesso. Voce eh o numero "+ numberInRow(parts[1]) +" na fila");
+
+                ps.println("72->Pedido de emprestimo do livro:" + getNameFromId(parts[1]) + ". Realizado com sucesso. Voce eh o numero " + numberInRow(parts[1]) + " na fila");
             }
         }
 
     }
-    
-    private static String getNameFromId(String bookId){
+
+    private static String getNameFromId(String bookId) {
         Singleton st = Singleton.getInstance();
         List<Book> listBooks = st.getListOfBooks();
-        for(Book book: listBooks){
-            if(book.getCode().equals(bookId)){
+        for (Book book : listBooks) {
+            if (book.getCode().equals(bookId)) {
                 return book.getTitle();
             }
         }
         return "FALHA FALHA FALHA -0-0-0-0-0-0-0-0-0-0- ";
     }
 
-    private static int numberInRow(String codBook){
+    private static int numberInRow(String codBook) {
         Singleton st = Singleton.getInstance();
-        List<Loan> listReserv= st.getListReserv();
+        List<Loan> listReserv = st.getListReserv();
         int rowCoutn = 0;
-        for(Loan reserv: listReserv){
-            if(reserv.getCodBook().equals(codBook)){
-                rowCoutn ++;
+        for (Loan reserv : listReserv) {
+            if (reserv.getCodBook().equals(codBook)) {
+                rowCoutn++;
             }
         }
         return rowCoutn;
     }
-    
-    
+
     //retorna true se o livro está livra, e false se alguem emprestou
     private static boolean bookIsFree(String codBook) {
         Singleton st = Singleton.getInstance();
@@ -249,6 +262,19 @@ public class Listener implements Runnable {
             }
         }
         return false;
+    }
+
+    //return true para será deletado, e falsa para nao sera deletado
+    private static boolean bookWillBeDelete(String codBook) {
+        Singleton st = Singleton.getInstance();
+        List<String> listDeleteBook = st.getListToDeleteBook();
+        for (String book : listDeleteBook) {
+            if (book.equals(codBook)) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
     //retorn false=adm e true=usr

@@ -16,8 +16,9 @@ public class Singleton {
     private static Singleton myObj;
     private List<Book> listOfBooks;
     private List<User> listOfUser;
-    private List<Book> listToDeleteBook;
+    private List<String> listToDeleteBook;
     private List<Loan> listReserv;
+    
     
     private Singleton(){
         
@@ -38,6 +39,10 @@ public class Singleton {
         listReserv.add(reserv);
     }
     
+    public void deleteBook(String codBook){
+        listToDeleteBook.add(codBook);
+    }
+    
     public List<Book> getListOfBooks() {
         return listOfBooks;
     }
@@ -54,11 +59,11 @@ public class Singleton {
         this.listOfUser = listOfUser;
     }
 
-    public List<Book> getListToDeleteBook() {
+    public List<String> getListToDeleteBook() {
         return listToDeleteBook;
     }
 
-    public void setListToDeleteBook(List<Book> listToDeleteBook) {
+    public void setListToDeleteBook(List<String> listToDeleteBook) {
         this.listToDeleteBook = listToDeleteBook;
     }
 
