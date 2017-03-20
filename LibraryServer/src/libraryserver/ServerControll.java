@@ -21,7 +21,7 @@ public class ServerControll implements Runnable {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerControll.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -31,7 +31,7 @@ public class ServerControll implements Runnable {
                 Logger.getLogger(ServerControll.class.getName()).log(Level.SEVERE, null, ex);
             }
             try{
-                removeBookList();
+               // removeBookList();
             }catch (Exception ex) {
                 System.out.println("asdascasda");
             }
@@ -80,6 +80,7 @@ public class ServerControll implements Runnable {
     }
 
     private static void removeBookList() {
+
         Singleton st = Singleton.getInstance();
         List<String> listToDelete = st.getListToDeleteBook();
         List<Loan> listReserv = st.getListReserv();

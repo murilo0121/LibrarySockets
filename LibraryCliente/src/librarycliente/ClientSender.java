@@ -131,7 +131,7 @@ public class ClientSender implements Runnable {
             registerBook(socket);
         }
         if (optionInt == 3) {
-            deleteBook(socket);
+            //deleteBook(socket);
         }
         //System.out.println("Addr cliente:" + socket.getLocalAddress() );
         
