@@ -28,6 +28,9 @@ public class LibraryServer {
 
         ServerSocket servidor = new ServerSocket(12345);
 
+        Thread threadControll = new Thread(new ServerControll());
+        threadControll.start();
+        
         while (true) {
             System.out.println("conectou");
             Socket cliente = servidor.accept();

@@ -122,6 +122,11 @@ public class ClientReciever implements Runnable {
             System.out.println(parts[1]);
         }
         
+        //COD 75 pedido de reserva foi atendido
+        if(parts[0].equals("75")){
+            System.out.println(parts[1]);
+        }
+        
 
     }
 
